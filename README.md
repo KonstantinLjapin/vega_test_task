@@ -28,7 +28,7 @@ python3 mapfile_web.py spb4326.map
 http://localhost:3007/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=3359332.801464934368,8381615.12248637341,3377232.975584486965,8395864.989966142923&CRS=EPSG:3857&WIDTH=1016&HEIGHT=808&LAYERS=spb&STYLES=&FORMAT=image/png
 
 То будет получен результат в виде изображения:
-![Image alt](https://https://github.com/KonstantinLjapin/vega_test_task/blob/main/exmpl_map.jpg)
+![Image alt](https://https://github.com/KonstantinLjapin/vega_test_task/raw/main/exmpl_map.jpg)
 Это результат рендеринга картостиля — запрос одинаков в обоих случаях и даёт одинаковый результат.
 
 Задача:
