@@ -9,6 +9,7 @@ import tempfile
 
 # Константа для временной директории
 TEMP_DIR = os.path.join(tempfile.gettempdir(), 'map_data')
+db_path = "sqlite:///maps.db"
 
 
 def add_map_record(session, mapname, mapstyle, gjson):
@@ -87,7 +88,7 @@ def load_map_pairs_from_directory(session, directory_path: str):
             print(f"Ошибка при обработке файлов {map_file}: {e}")
 
 
-def init_db(db_path: str, directory_path: str):
+def init_db(directory_path: str):
     """
     Инициализирует подключение к базе данных, создает таблицы только если они не существуют,
     и заполняет бд данными.
@@ -124,7 +125,7 @@ async def get_db():
     Yields:
         Session: Сессия базы данных
     """
-    db_path = "sqlite:///maps.db" # при использовании переменных уходит в переменные проекта
+     # при использовании переменных среды уходит в переменные проекта
     engine = create_engine(db_path)
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
@@ -141,4 +142,4 @@ async def get_db():
 
 if __name__ == "__main__":
     # Инициализируем БД
-    init_db(db_path="sqlite:///maps.db", directory_path="static")
+    init_db(directory_path="static")

@@ -13,7 +13,7 @@ from src.dependencies import init_db, get_db, add_map_record
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Инициализация при запуске
-    init_db(db_path="sqlite:///maps.db", directory_path="static")
+    init_db(directory_path="static")
     yield
 
 
