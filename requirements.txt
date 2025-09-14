@@ -1,0 +1,3 @@
+fastapi==0.116.1
+mapscript @ file:///build/mapserver-g5qRsZ/mapserver-8.2.2/obj-x86_64-linux-gnu/src/mapscript/python
+SQLAlchemy==2.0.43
