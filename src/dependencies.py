@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine, inspect
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from src.models import Base, MapRecord
 import os
 from pathlib import Path
@@ -10,6 +10,26 @@ import tempfile
 # Константа для временной директории
 TEMP_DIR = os.path.join(tempfile.gettempdir(), 'map_data')
 db_path = "sqlite:///maps.db"
+
+
+def find_map_by_basename(db: Session, filename: str):
+    """
+    Поиск записи в базе данных по имени файла без расширения
+
+    Args:
+        db: Сессия базы данных
+        filename: Имя файла (с расширением или без)
+
+    Returns:
+        Найденная запись MapRecord или None
+    """
+    # Извлекаем имя файла без расширения
+    basename: str = filename
+    output: MapRecord = db.query(MapRecord).filter(
+        MapRecord.mapname == basename
+    ).first()
+    # Ищем запись в базе данных по полю mapname
+    return output.gjson
 
 
 def add_map_record(session, mapname, mapstyle, gjson):
@@ -138,6 +158,7 @@ async def get_db():
         raise
     finally:
         session.close()
+
 
 
 if __name__ == "__main__":

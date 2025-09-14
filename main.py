@@ -7,7 +7,7 @@ import uvicorn
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, Request, Response, File, UploadFile, HTTPException, Depends
 from fastapi.responses import JSONResponse
-from src.dependencies import init_db, get_db, add_map_record
+from src.dependencies import init_db, get_db, add_map_record, find_map_by_basename
 
 
 @asynccontextmanager
@@ -20,11 +20,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-@app.get("/")
-async def read_item(request: Request):
+@app.get("/{map_name}")
+async def read_item(request: Request, map_name: str, db= Depends(get_db)):
     query_params = request.query_params
-    print(query_params)
-    return Response("param ok!", status_code=200)
+    q = find_map_by_basename(db=db, filename=map_name)
+    # TODO написать логику работы выгрузки запроса карты
+    #  ,учесть что нужно временно выгрузить гис и мап заменить в мап строку конектион
+    return Response(f"{map_name}", status_code=200)
 
 
 @app.post("/upload")
