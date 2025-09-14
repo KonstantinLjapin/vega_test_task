@@ -1,6 +1,8 @@
+from contextlib import contextmanager
+
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
-from models import Base, MapRecord
+from src.models import Base, MapRecord
 import os
 from pathlib import Path
 import tempfile
@@ -90,6 +92,7 @@ def init_db(db_path: str, directory_path: str):
     Инициализирует подключение к базе данных, создает таблицы только если они не существуют,
     и заполняет бд данными.
     """
+    print("init db.")
     engine = create_engine(db_path)
 
     # Проверяем, существуют ли таблицы в базе данных
@@ -112,6 +115,28 @@ def init_db(db_path: str, directory_path: str):
         session.close()
     else:
         print("Таблицы уже существуют.")
+
+
+async def get_db():
+    """
+    Контекстный менеджер для получения сессии БД
+
+    Yields:
+        Session: Сессия базы данных
+    """
+    db_path = "sqlite:///maps.db" # при использовании переменных уходит в переменные проекта
+    engine = create_engine(db_path)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    try:
+        yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 
 if __name__ == "__main__":
