@@ -91,5 +91,9 @@ request.loadParamsFromURL(env['QUERY_STRING']),
 - использовался системный python3.10 
 - pip3 install "fastapi[standard]"
 - pip3 install --pre SQLAlchemy
-- mapscript как минимум требует установки GDAL и mapserver (устанавливается используя их документацию )
-- 
+- mapscript устанавливается используя их документацию 
+
+### Проверка
+- http://0.0.0.0:3007/docs есть готовый GUI вэб интерфейс (Swagger Open API) можно использовать для тестов
+- curl -v -X POST "http://localhost:3007/upload"   -F "map_file=@upload_file/demo_spb4326.map"   -F "json_file=@upload_file/demo_spb4326.json" # для загрузки в бд через POST запрос
+- curl "http://localhost:3007/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=3359332.801464934368,8381615.12248637341,3377232.975584486965,8395864.989966142923&CRS=EPSG:3857&WIDTH=1016&HEIGHT=808&LAYERS=spb&STYLES=&FORMAT=image/png" -o output.png # загрузит сгенерированый файл

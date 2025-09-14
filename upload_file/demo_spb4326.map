@@ -1,0 +1,36 @@
+MAP
+    NAME "demo_spb"
+    PROJECTION
+        "init=epsg:4326"
+    END
+
+    EXTENT 30.236372 59.973074 30.306552 59.982602
+
+    WEB
+        METADATA
+	    "ows_enable_request" "*"
+	    "ows_onlineresource" "http://localhost:3007"
+	    "wms_srs" "EPSG:3857 EPSG:4326"
+	    "wms_transparent" "TRUE"
+        END
+    END
+
+    SIZE 400 400
+    IMAGECOLOR 220 221 239
+
+        LAYER
+            NAME "demo_spb"
+            TYPE POLYGON
+            STATUS ON
+            CONNECTIONTYPE OGR
+            CONNECTION "demo_spb4326.json"
+            DATA "demo_spb"
+            CLASS
+                NAME "demo_colors"
+                STYLE
+                    COLOR [color]
+                END
+           END
+        END
+
+END
