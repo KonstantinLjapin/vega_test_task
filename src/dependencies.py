@@ -9,10 +9,10 @@ import tempfile
 
 # Константа для временной директории
 TEMP_DIR = os.path.join(tempfile.gettempdir(), 'map_data')
-db_path = "sqlite:///maps.db"
+db_path = "sqlite:///exampl_maps.db"
 
 
-def find_map_by_basename(db: Session, filename: str):
+def find_map_by_basename(db: Session, filename: str) -> MapRecord:
     """
     Поиск записи в базе данных по имени файла без расширения
 
@@ -29,7 +29,7 @@ def find_map_by_basename(db: Session, filename: str):
         MapRecord.mapname == basename
     ).first()
     # Ищем запись в базе данных по полю mapname
-    return output.gjson
+    return output
 
 
 def add_map_record(session, mapname, mapstyle, gjson):
